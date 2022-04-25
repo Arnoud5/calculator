@@ -12,25 +12,35 @@ let operatorChosen2 = "";
 let result = "";
 
 eq.addEventListener("click", () => {
-  result = operate(operatorChosen, previusNum, currentNum);
-  previusNum = result;
-  previus.innerHTML = previusNum;
-  currentNum = "";
-  current.innerHTML = currentNum;
+  if (operatorChosen == "") {
+
+  } else {
+    result = operate(operatorChosen, previusNum, currentNum);
+    previusNum = result;
+    previus.innerHTML = previusNum;
+    currentNum = "";
+    current.innerHTML = currentNum;
+    operatorChosen = "";
+  }
 });
 
 opBtn.forEach((btn) => {
   btn.addEventListener("click", () => {
-    operatorChosen = btn.value;
-    previusNum += currentNum;
-    if (currentNum == "") {
-      previus.innerHTML = `${previusNum} ${operatorChosen}`;
-    } 
-    // else if (currentNum && currentNum) {
-
-    // } 
-    else {
-      previus.innerHTML = `${currentNum} ${operatorChosen}`;
+    if (operatorChosen === "") {
+      operatorChosen = btn.value;
+      previusNum += currentNum;
+      const pickOp = document.querySelector("#pickOperator");
+      pickOp.innerHTML = "";
+      if (currentNum == "") {
+        previus.innerHTML = `${previusNum} ${operatorChosen}`;
+      } else {
+        previus.innerHTML = `${currentNum} ${operatorChosen}`;
+      }
+    } else {
+      result = operate(operatorChosen, previusNum, currentNum);
+      previusNum = result;
+      previus.innerHTML = previusNum;
+      operatorChosen = "";
     }
     currentNum = "";
     current.innerHTML = currentNum;
@@ -77,8 +87,14 @@ function divide(a, b) {
 
 btn.forEach((numBtn) => {
   numBtn.addEventListener("click", () => {
-    currentNum += numBtn.value;
-    current.innerHTML = currentNum;
+    if (previusNum && operatorChosen === "") {
+      console.log("pick an operator first");
+      const pickOp = document.querySelector("#pickOperator");
+      pickOp.innerHTML = "pick an operator first";
+    } else {
+      currentNum += numBtn.value;
+      current.innerHTML = currentNum;
+    }
   });
 });
 
